@@ -1,0 +1,21 @@
+name: Test
+on:
+  push: {}
+  workflow_dispatch: {}
+  schedule:
+  - cron: '*/5 * * * *'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Install dependencies
+      run: bundle
+    - name: Run
+      env:
+        REQUEST_URL: ${{ secrets.REQUEST_URL }}
+      run: ./main.rb
